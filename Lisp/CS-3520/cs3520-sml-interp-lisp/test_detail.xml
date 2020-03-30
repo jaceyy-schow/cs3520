@@ -1,0 +1,138 @@
+<?xml version='1.0' encoding='utf-8'?>
+<testsuites disabled="0" errors="0" failures="1" skipped="0" tests="1" time="0.5944693088531494"><testsuite disabled="0" errors="0" failures="1" skipped="0" tests="1" time="0.5944693088531494"><testcase name="inputs/test.input" status="failed" time="2.080085515975952"><failure type="failure">./a.out &lt; inputs/test.input
+
+!!! returned non-zero status code 1
+
+!!! output is incorrect:
+diff inputs/test.actual inputs/test.output25c25,150
+&lt; --&gt; --&gt; 
+\ No newline at end of file
+---
+&gt; --&gt; --&gt; ()
+&gt; --&gt; --&gt; T
+&gt; --&gt; --&gt; ()
+&gt; --&gt; --&gt; and
+&gt; --&gt; --&gt; not
+&gt; --&gt; --&gt; divides
+&gt; --&gt; --&gt;   &gt; interval-list
+&gt; --&gt; --&gt; (3 4 5 6 7)
+&gt; --&gt; --&gt;   &gt;   &gt;   &gt;   &gt; remove-multiples
+&gt; --&gt; --&gt; (3 5 7)
+&gt; --&gt; --&gt;   &gt;   &gt; sieve
+&gt; --&gt; --&gt; primes&lt;=
+&gt; --&gt; --&gt; (2 3 5 7)
+&gt; --&gt; --&gt;   &gt;   &gt;   &gt; insert
+&gt; --&gt; --&gt;   &gt;   &gt; insertion-sort
+&gt; --&gt; --&gt; (2 3 4 5 6 8)
+&gt; --&gt; --&gt;   &gt;   &gt;   &gt; assoc
+&gt; --&gt; --&gt; Thant
+&gt; --&gt; --&gt;   &gt;   &gt;   &gt;   &gt; mkassoc
+&gt; --&gt; --&gt; ((I Ching))
+&gt; --&gt; --&gt; ((I Ching) (E coli))
+&gt; --&gt; --&gt; ((I Magnin) (E coli))
+&gt; --&gt; --&gt; Magnin
+&gt; --&gt; --&gt; ((apple ((texture crunchy))) (banana ((color yellow))))
+&gt; --&gt; --&gt;   &gt;   &gt; getprop
+&gt; --&gt; --&gt; crunchy
+&gt; --&gt; --&gt;   &gt;   &gt; putprop
+&gt; --&gt; --&gt; ((apple ((texture crunchy) (color red))) (banana ((color yellow))))
+&gt; --&gt; --&gt; red
+&gt; --&gt; --&gt; hasprop?
+&gt; --&gt; --&gt;   &gt;   &gt;   &gt;   &gt;   &gt; gatherprop
+&gt; --&gt; --&gt; ((apple ((texture crunchy) (color red))) (banana ((color yellow))) (lemon ((color yellow))))
+&gt; --&gt; --&gt; (banana lemon)
+&gt; --&gt; --&gt; ()
+&gt; --&gt; --&gt;   &gt; addelt
+&gt; --&gt; --&gt;   &gt;   &gt; member?
+&gt; --&gt; --&gt; size
+&gt; --&gt; --&gt;   &gt;   &gt;   &gt;   &gt; union
+&gt; --&gt; --&gt; (3 a)
+&gt; --&gt; --&gt; T
+&gt; --&gt; --&gt; (a 2 3)
+&gt; --&gt; --&gt; ((a b) 1)
+&gt; --&gt; --&gt; T
+&gt; --&gt; --&gt;   &gt;   &gt;   &gt; sum
+&gt; --&gt; --&gt;   &gt;   &gt;   &gt;   &gt;   &gt; wrong-sum
+&gt; --&gt; --&gt; 10
+&gt; --&gt; --&gt; 16
+&gt; --&gt; --&gt; right-sum
+&gt; --&gt; --&gt;   &gt;   &gt;   &gt;   &gt;   &gt; right-sum-aux
+&gt; --&gt; --&gt; 10
+&gt; --&gt; --&gt;   &gt;   &gt;   &gt;   &gt;   &gt; pre-ord
+&gt; --&gt; --&gt; A
+&gt; B
+&gt; C
+&gt; D
+&gt; E
+&gt; F
+&gt; G
+&gt; H
+&gt; I
+&gt; I
+&gt; --&gt; --&gt; --&gt; --&gt; ()
+&gt; --&gt; --&gt; front
+&gt; --&gt; --&gt; rm-front
+&gt; --&gt; --&gt;   &gt; enqueue
+&gt; --&gt; --&gt; empty?
+&gt; --&gt; --&gt; --&gt; --&gt; level-ord
+&gt; --&gt; --&gt;   &gt;   &gt;   &gt;   &gt;   &gt;   &gt;   &gt;   &gt;   &gt;   &gt;   &gt;   &gt; level-ord*
+&gt; --&gt; --&gt; A
+&gt; B
+&gt; E
+&gt; C
+&gt; D
+&gt; F
+&gt; I
+&gt; G
+&gt; H
+&gt; ()
+&gt; --&gt; --&gt; --&gt; --&gt;   &gt;   &gt;   &gt;   &gt; inter
+&gt; --&gt; --&gt;   &gt;   &gt;   &gt;   &gt;   &gt; diff
+&gt; --&gt; --&gt;   &gt;   &gt;   &gt; UNION
+&gt; --&gt; --&gt;   &gt;   &gt;   &gt; INTER
+&gt; --&gt; --&gt;   &gt;   &gt;   &gt; DIFF
+&gt; --&gt; --&gt;   &gt; SELECT
+&gt; --&gt; --&gt;   &gt;   &gt; col-num
+&gt; --&gt; --&gt;   &gt;   &gt;   &gt;   &gt; include-rows
+&gt; --&gt; --&gt;   &gt; nth
+&gt; --&gt; --&gt;   &gt; PROJECT
+&gt; --&gt; --&gt;   &gt;   &gt; col-num*
+&gt; --&gt; --&gt;   &gt;   &gt;   &gt; include-cols*
+&gt; --&gt; --&gt;   &gt;   &gt;   &gt; include-cols
+&gt; --&gt; --&gt;   &gt; append
+&gt; --&gt; --&gt;   &gt;   &gt;   &gt;   &gt;   &gt;   &gt;   &gt;   &gt;   &gt;   &gt;   &gt; JOIN
+&gt; --&gt; --&gt;   &gt;   &gt;   &gt;   &gt;   &gt;   &gt;   &gt;   &gt;   &gt;   &gt;   &gt;   &gt;   &gt;   &gt;   &gt;   &gt; join-cols*
+&gt; --&gt; --&gt;   &gt;   &gt;   &gt; join-cols
+&gt; --&gt; --&gt;   &gt;   &gt;   &gt;   &gt;   &gt;   &gt; ((Victim Crime Criminal Location) (Phelps robbery Harrison London) (Drebber murder Hope London) (Sir-Charles murder Stapleton Devonshire) (Lady-Eva blackmail Milverton London) (Brunton murder Howells West-Sussex))
+&gt; --&gt; --&gt;   &gt;   &gt;   &gt;   &gt; ((Victim Weapon Motive) (Drebber poison revenge) (Sir-Charles hound greed) (Brunton burial-alive passion))
+&gt; --&gt; --&gt;   &gt;   &gt;   &gt; ((Victim Weapon Motive Criminal) (Drebber poison revenge Hope))
+&gt; --&gt; --&gt; --&gt; --&gt;   &gt;   &gt;   &gt;   &gt; eval
+&gt; --&gt; --&gt;   &gt;   &gt;   &gt;   &gt; apply-op
+&gt; --&gt; --&gt; 23
+&gt; --&gt; --&gt; 7
+&gt; --&gt; --&gt; 24
+&gt; --&gt; --&gt;   &gt;   &gt;   &gt;   &gt;   &gt; eval
+&gt; --&gt; --&gt; 6
+&gt; --&gt; --&gt;   &gt;   &gt;   &gt;   &gt;   &gt;   &gt;   &gt;   &gt; eval
+&gt; --&gt; --&gt;   &gt;   &gt;   &gt;   &gt;   &gt;   &gt;   &gt;   &gt; apply-binary-op
+&gt; --&gt; --&gt;   &gt;   &gt;   &gt;   &gt;   &gt;   &gt; apply-unary-op
+&gt; --&gt; --&gt; a
+&gt; --&gt; --&gt; (3 9)
+&gt; --&gt; --&gt;   &gt;   &gt;   &gt;   &gt;   &gt;   &gt;   &gt;   &gt;   &gt;   &gt;   &gt;   &gt;   &gt;   &gt;   &gt; eval
+&gt; --&gt; --&gt; userfun?
+&gt; --&gt; --&gt;   &gt;   &gt;   &gt; apply-userfun
+&gt; --&gt; --&gt;   &gt;   &gt;   &gt; evallist
+&gt; --&gt; --&gt;   &gt;   &gt;   &gt; mkassoc*
+&gt; --&gt; --&gt; ((double ((a) (+ a a))))
+&gt; --&gt; --&gt; 8
+&gt; --&gt; --&gt;   &gt;   &gt; ((exp ((m n) (if (= n 0) 1 (* m (exp m (- n 1)))))))
+&gt; --&gt; --&gt; 64
+&gt; --&gt; --&gt; r-e-p-loop
+&gt; --&gt; --&gt;   &gt;   &gt;   &gt;   &gt;   &gt;   &gt; r-e-p-loop*
+&gt; --&gt; --&gt;   &gt;   &gt;   &gt; process-def
+&gt; --&gt; --&gt;   &gt;   &gt; process-exp
+&gt; --&gt; --&gt;   &gt;   &gt;   &gt;   &gt;   &gt; (double 8 exp 64)
+&gt; --&gt; --&gt;   &gt;   &gt;   &gt;   &gt;   &gt;   &gt;   &gt;   &gt;   &gt;   &gt;   &gt;   &gt;   &gt;   &gt;   &gt;   &gt;   &gt;   &gt;   &gt;   &gt;   &gt;   &gt;   &gt;   &gt;   &gt;   &gt;   &gt;   &gt;   &gt;   &gt;   &gt;   &gt;   &gt;   &gt;   &gt;   &gt;   &gt;   &gt;   &gt;   &gt;   &gt;   &gt;   &gt;   &gt;   &gt;   &gt;   &gt;   &gt;   &gt;   &gt;   &gt;   &gt;   &gt;   &gt;   &gt;   &gt;   &gt;   &gt;   &gt;   &gt;   &gt;   &gt;   &gt;   &gt;   &gt;   &gt;   &gt;   &gt;   &gt;   &gt;   &gt;   &gt;   &gt;   &gt;   &gt;   &gt;   &gt;   &gt;   &gt;   &gt;   &gt;   &gt;   &gt;   &gt;   &gt; (cadr cddr caar caddr cadddr cadar list2 +1 length assoc mkassoc mkassoc* eval apply-unary-op apply-binary-op userfun? apply-userfun evallist r-e-p-loop r-e-p-loop* process-def process-exp (double 8))
+&gt; --&gt; 
+
+</failure></testcase></testsuite></testsuites>

@@ -1,0 +1,104 @@
+<html><head></head><body><h1>Interpreter for Lisp</h1>
+
+<p>Extend the evaluator you wrote for the simple language to work for
+lisp. The data types for the abstract syntax tree are provided, as
+is a parser and the code that drives the read-eval-print loop
+(REPL):</p>
+
+<ul>
+<li><code>ast.sml</code>: data types for the abstract syntax tree</li>
+<li><code>parse.sml</code>: the parser</li>
+<li><code>lisp.sml</code>: the tokenizer and main read-eval-print loop</li>
+<li><code>eval.sml</code>: you should write the evaluator here</li>
+</ul>
+
+<p>The grammar for the language is provided here:</p>
+
+<pre><code>input           -&gt;  expression | fundef
+fundef          -&gt;  ( define function arglist expression )
+arglist         -&gt;  ( variable* )
+expression      -&gt;  value
+                 |  variable
+                 |  ( if expression expression expression )
+                 |  ( while expression expression )
+                 |  ( set variable expression )
+                 |  ( begin expression+ )
+                 |  ( optr expression* )
+optr            -&gt;  function | value-op
+value           -&gt;  integer | quoted-const
+value-op        -&gt;  + | - | * | / | = | &lt; | &gt; | cons | car | cdr
+                 |  number? | symbol? | list? | null? | print
+quoted-const    -&gt;  &#39;S-expression
+S-expression    -&gt;  integer | symbol | ( S-expression* )
+symbol          -&gt;  name
+function        -&gt;  name
+variable        -&gt;  name
+integer         -&gt;  sequence of digits, possibly preceded by minus sign
+name            -&gt;  any sequence of characters not an integer, and not
+                    containing a blank or any of the following characters:
+                    ( ) ;.
+</code></pre>
+
+<p>A function cannot be one of the “keywords” define, if, while, begin,
+or set, or any of the value-op&#39;s. Aside from this, names can use any
+characters on the keyboard. Comments are introduced by the
+character &#39;;&#39; and continue to the end of the line; this is why &#39;;&#39;
+cannot occur within a name. A session is terminated by entering
+“quit”; thus it is highly inadvisable to use this name for a
+variable.</p>
+
+<h2>The details</h2>
+
+<p>The <code>eval</code> function accepts an expression (an instance of the
+<code>expression</code> type) as input and returns an s-expression (an instance
+of the <code>sxp</code> type). Below is a sketch of the major differences in
+how each kind of expression should be evaluated compared to the
+simple language:</p>
+
+<ul>
+<li><p><code>ValExp</code>: if the input is a value, simply return the value (the
+s-expression stored inside the <code>ValExp</code> instance).</p></li>
+
+<li><p><code>IfExp</code> and <code>WhileExp</code>: note that <code>NilSxp</code> is the only false
+value; everything else should be treated as true. <code>WhileExp</code>
+should return <code>NilSxp</code> when it returns.</p></li>
+
+<li><p><code>BinaryBuiltinExp</code> and <code>UnaryBuiltinExp</code> primitive operations:</p>
+
+<ul>
+<li><p><code>+</code>, <code>-</code>, <code>*</code>, <code>/</code>:
+, <code>&lt;</code>, and <code>&gt;</code>: evaluate the arguments and
+make sure both results are <code>NumSxp</code> instances. Apply the
+appropriate operation on the numbers, wrap the result in a
+<code>NumSxp</code>, and return it.</p></li>
+
+<li><p><code>&lt;</code>, and <code>&gt;</code>: evaluate the arguments and make sure both
+results are <code>NumSxp</code> instances. Apply the appropriate
+operation on the numbers, return <code>SymSxp &#34;T&#34;</code> for true or
+<code>NilSxp</code> for false.</p></li>
+
+<li><p><code>=</code>: evaluate both arguments and compare the results. The
+results are equal if: (1) they are both numbers and they are
+the same number, (2) they are both symbols and they are the same
+symbol, or (3) they are both nil values. All other cases should
+return false (the <code>NilSxp</code> value). Return <code>SymSxp &#34;T&#34;</code> for true.</p></li>
+
+<li><p><code>cons</code>: evaluate both arguments. If the second argument is
+anything other than a list or a nil value, signal an error.
+Otherwise, build a list value from them and return it.</p></li>
+
+<li><p><code>car</code>, <code>cdr</code>: evaluate the arguments and insist that the
+result is a list.  Return the appropriate part.</p></li>
+
+<li><p><code>number?</code>, <code>symbol?</code>, <code>list?</code>, and <code>null?</code>: evaluate the
+argument and return either true (the symbol <code>T</code>) or false
+(the <code>NilSxp</code> value) based on the type of the result.</p></li>
+
+<li><p><code>print</code>: , evaluate the argument, convert the result to a
+string using the <code>sxpToString</code> function in <code>ast.sml</code>, and
+print it.  Return the value.</p></li>
+</ul></li>
+
+<li><p>User-defined functions: same as before.</p></li>
+</ul>
+</body></html>

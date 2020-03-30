@@ -1,0 +1,145 @@
+<html><head></head><body><h1>Interpreter for Scheme</h1>
+
+<p>Extend the evaluator you wrote for lisp to work for scheme. The data
+types for the abstract syntax tree are provided, as is a parser and
+the code that drives the read-eval-print loop (REPL):</p>
+
+<ul>
+<li><code>ast.sml</code>: data types for the abstract syntax tree</li>
+<li><code>parse.sml</code>: the parser</li>
+<li><code>scheme.sml</code>: the tokenizer and main read-eval-print loop</li>
+<li><code>eval.sml</code>: you should write the evaluator here</li>
+</ul>
+
+<p>The grammar for the language is provided here:</p>
+
+<pre><code>input           -&gt;  expression
+expression      -&gt;  value
+                 |  variable
+                 |  ( if expression expression expression )
+                 |  ( while expression expression )
+                 |  ( set variable expression )
+                 |  ( begin expression+ )
+                 |  ( expression+ )
+value           -&gt;  integer | quoted-const | ( lambda arglist expression )
+arglist         -&gt;  ( variable* )
+quoted-const    -&gt;  &#39;S-expression
+S-expression    -&gt;  integer | symbol | ( S-expression* )
+symbol          -&gt;  name
+variable        -&gt;  name
+integer         -&gt;  sequence of digits, possibly preceded by minus sign
+name            -&gt;  any sequence of characters not an integer, and not
+                    containing a blank or any of the following characters:
+                    ( ) ;.
+</code></pre>
+
+<p>A function cannot be one of the &#34;keywords&#34; define, if, while, begin,
+or set, or any of the value-op&#39;s. Aside from this, names can use any
+characters on the keyboard. Comments are introduced by the
+character &#39;;&#39; and continue to the end of the line; this is why &#39;;&#39;
+cannot occur within a name. A session is terminated by entering
+&#34;quit&#34;; thus it is highly inadvisable to use this name for a
+variable.</p>
+
+<h2>The details</h2>
+
+<p>There are a few changes from the lisp interpreter:</p>
+
+<ul>
+<li><p>There is no longer a global list of functions, since functions
+are first-class values in scheme.</p></li>
+
+<li><p>An environment is now a reference to a list of key/value pairs,
+which means that it is mutable. You can create a new environment
+using the provided <code>envNew</code> function, and you should use
+<code>envGet</code>, <code>envSet</code>, and <code>envContains</code> to manipulate an environment.</p></li>
+
+<li><p><code>rho</code> is now a list of environments. The head of the list is the
+local environment, and the last environment in the list is the
+global environment. This means that the global environment is no
+longer treated as a special case, except that <code>set</code> operations
+still create new values there for names that do not exist in any
+other environment.</p></li>
+
+<li><p>Since environments are mutable, <code>eval</code> no longer returns an
+updated version of <code>rho</code>, instead returning only a value.</p></li>
+
+<li><p>The grammar no longer treats primitive functions as a special
+case. Instead, these are instances of <code>UnaryPrimOp</code> and
+<code>BinaryPrimOp</code> that are predefined in the global environment,
+i.e., the global environment must start out with an entry for
+each of the following primitive operations, each either a
+<code>UnaryPrimOp</code> or a <code>BinaryPrimOp</code> instance:</p>
+
+<ul>
+<li><p><code>+</code>, <code>-</code>, <code>*</code>, <code>/</code>, <code>&lt;</code>, <code>&gt;</code>, <code>=</code>, <code>cons</code>, <code>car</code>, <code>cdr</code>,
+<code>number?</code>, <code>symbol?</code>, <code>list?</code>, <code>null?</code>, <code>print</code>: same
+functionality as in lisp.</p></li>
+
+<li><p><code>primop?</code>: returns the true value if its single argument is
+a primitive function, i.e, an instance of <code>UnaryPrimOp</code> or
+<code>BinaryPrimOp</code>.</p></li>
+
+<li><p><code>closure?</code>: returns the true value if its single argument is
+a closure object, i.e., an instance of <code>Closure</code>.</p></li>
+</ul>
+
+<p>You should write functions for each of these primitive
+operations that match the type signatures expected by
+<code>UnaryPrimOp</code> and <code>BinaryPrimOp</code>, and then you should add
+an entry to the <code>globalEnv</code> environment for each one. In other
+words, primitive operations are just global variables that map
+to <code>UnaryPrimOp</code> and <code>BinaryPrimOp</code> instances.</p></li>
+
+<li><p>Applicative expressions now have an expression for the operator
+field instead of a string. This must be evaluated before you can
+figure out if it is a user-defined function (a closure) or a
+primitive operation.</p></li>
+</ul>
+
+<p>As before, <code>eval</code> always takes rho (a list of environments) and an
+expression as its input, and always returns a value as its output
+(or raises an error).  There are a few changes to be aware of:</p>
+
+<ul>
+<li><p>A <code>LambdaExp</code> is an expression. When evaluated, it returns a
+<code>Closure</code>. The closure captures the lambda value (the code)
+and the context in which is was defined, i.e., the
+rho that is active when the lambda expression is
+evaluated.</p></li>
+
+<li><p>rho now contains a list of environments, so when looking up a
+value (or setting one) you should start at the local environment
+(the head of the list), then follow the list of environments,
+getting or setting the first instance of the variable that you
+encounter. The global environment is no longer a special case,
+it is just the last entry in the linked list. If a variable does
+not already exist, a &#34;set&#34; operation should create it in the
+global environment.</p></li>
+
+<li><p>To evaluate a primitive operation (remember that the
+<code>UnaryPrimOp</code> or <code>BinaryPrimOp</code> instance is the result of
+evaluating the operator expression), verify that the caller
+provided the expected number of arguments. Then evaluate them,
+and call the function with the evaluated arguments.</p></li>
+
+<li><p>To evaluate a closure (the <code>Closure</code> instance is the result of
+evaluating the operator field), verify you have the correct number
+of arguments, evaluate them, create a new environment mapping
+formal parameters to arguments, and then evaluate the body of
+the lambda expression that the closure contains.</p>
+
+<p>Note: when you evaluate the body, the value of rho that you pass
+in should have the newly-created environment as its first entry,
+and the captured environment last as the remaining entries,
+i.e., the environment list that is embedded in the closure.</p></li>
+</ul>
+
+<p>So a lambda expression is a kind of expression. When it is
+evaluated, it produces a closure (a kind of value), which
+captures the code and the environment that is present when the
+lambda expression is evaluated, i.e., when the function is defined.
+When a closure is invoked, the newly-created environment links to
+this captured environment to resolve free variables (the ones not
+defined as formal parameters in the lambda expression).</p>
+</body></html>
